@@ -43,6 +43,10 @@ Basic controls:
  - Click + drag: Pan diagram
  - CTRL + shift + wheel: Squash / stretch horizontally
  - shift + wheel: Squash / stretch vertically
+ 
+To Use CMake
+ - [Install CMake](https://cmake.org/download/)
+ - [Install Conan](https://docs.conan.io/en/latest/installation.html)
 
 Cheers,
 Halvar Flake / Thomas Dullien
