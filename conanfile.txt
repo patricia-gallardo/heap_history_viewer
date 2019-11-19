@@ -1,0 +1,25 @@
+# These packages require bincrafters repo:
+# conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+# mkdir build && cd build
+# For some reason there is a binary missing of sqlite3 in Windows. I have reported it, in the meantime it is necessary to build it from sources
+# conan install .. --build=missing
+# cmake .. -G "Visual Studio 15 Win64"
+# cmake --build . --config Release
+# cd bin
+# HeapVizGL.exe
+# > qt.qpa.plugin: Could not find the Qt platform plugin "windows" in ""
+# > This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+# HeapVizGLTest.exe
+# > works...
+# > Totals: 7 passed, 3 failed, 0 skipped, 0 blacklisted, 3ms
+# > ********* Finished testing of TestDisplayHeapWindow *********
+
+[requires]
+gflags/2.2.2@bincrafters/stable
+qt/5.12.6@bincrafters/stable
+
+[generators]
+cmake
+
+[imports]
+bin, * -> bin

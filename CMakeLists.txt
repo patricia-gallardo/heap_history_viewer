@@ -5,21 +5,17 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-include(${CMAKE_SOURCE_DIR}/conan.cmake)
-
-if (DEFINED ENV{CMAKE_PREFIX_PATH})
-    message(STATUS "Getting Qt from the system. CMAKE_PREFIX_PATH = $ENV{CMAKE_PREFIX_PATH}")
-    set(NEEDED_CONAN_DEPENDENCIES gflags/2.2.2@bincrafters/stable)
-else ()
-    message(STATUS "To use the Qt from your system, set the CMAKE_PREFIX_PATH env var")
-    message(STATUS "Trying to get Qt from Conan")
-    message(STATUS "If it fails try: 'conan remote add bincrafters \"https://api.bintray.com/conan/bincrafters/public-conan\"'")
-    set(NEEDED_CONAN_DEPENDENCIES gflags/2.2.2@bincrafters/stable qt/5.12.6@bincrafters/stable)
-endif ()
-
-conan_cmake_run(REQUIRES ${NEEDED_CONAN_DEPENDENCIES} BASIC_SETUP BUILD missing)
-
 set(CMAKE_CPP_STANDARD 17)
+
+if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS)
+    # So it gets the same interface than with the system find_package one
+    add_library(gflags::gflags INTERFACE IMPORTED)
+    target_link_libraries(gflags::gflags INTERFACE CONAN_PKG::gflags)
+else()
+    find_package(gflags REQUIRED)
+endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5Test REQUIRED)
@@ -37,7 +33,7 @@ find_package(OpenGL REQUIRED)
 # TODO(patricia-gallardo): Fix all of these
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-    set(EXTRA_WARNINGS /WX) # -Werror
+    #set(EXTRA_WARNINGS /WX) # -Werror
     # /wd4244 disables warings around conversion to or from 'long double', possible loss of data
     set(TEMPORARILY_DISABLED_WARNINGS /wd4244)
 else ()
@@ -68,9 +64,9 @@ add_executable(HeapVizGL
         vertex.cpp)
 
 target_link_libraries(HeapVizGL
-        ${CONAN_LIBS}
         OpenGL::GL
-        Qt5::Widgets)
+        Qt5::Widgets
+        gflags::gflags)
 
 target_compile_options(HeapVizGL PRIVATE
         ${EXTRA_WARNINGS}
