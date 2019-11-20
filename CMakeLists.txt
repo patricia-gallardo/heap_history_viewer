@@ -28,7 +28,7 @@ else ()
     set(PROJECT_CONAN_FILE conanfile_qt.txt)
 endif ()
 
-conan_cmake_run(CONANFILE ${PROJECT_CONAN_FILE} BASIC_SETUP BUILD missing)
+conan_cmake_run(CONANFILE ${PROJECT_CONAN_FILE} BASIC_SETUP CMAKE_TARGETS BUILD missing)
 
 if (QT_GENERATOR)
     # Copy the qt.conf file to be next to the binary
@@ -54,7 +54,7 @@ find_package(OpenGL REQUIRED)
 # TODO(patricia-gallardo): Fix all of these
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-    set(EXTRA_WARNINGS /WX) # -Werror
+    #set(EXTRA_WARNINGS /WX) # -Werror
     # /wd4244 disables warings around conversion to or from 'long double', possible loss of data
     set(TEMPORARILY_DISABLED_WARNINGS /wd4244)
 else ()
@@ -86,7 +86,7 @@ set(COMMON_FILES
 add_executable(HeapVizGL ${COMMON_FILES} main.cpp)
 
 target_link_libraries(HeapVizGL
-        ${CONAN_LIBS}
+        CONAN_PKG::gflags
         OpenGL::GL
         Qt5::Widgets)
 

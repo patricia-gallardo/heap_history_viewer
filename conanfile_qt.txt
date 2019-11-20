@@ -10,3 +10,4 @@ qt/5.12.6@bincrafters/stable
 [options]
 
 [imports]
+bin, * -> bin
