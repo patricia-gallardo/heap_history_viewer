@@ -1,0 +1,9 @@
+[generators]
+cmake
+
+[requires]
+gflags/2.2.2@bincrafters/stable
+
+[options]
+
+[imports]

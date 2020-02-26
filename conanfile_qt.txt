@@ -1,0 +1,10 @@
+[generators]
+cmake
+
+[requires]
+gflags/2.2.2
+qt/5.12.6@bincrafters/stable
+
+[options]
+
+[imports]
