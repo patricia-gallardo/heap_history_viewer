@@ -4,7 +4,8 @@ from conans import ConanFile, CMake
 class HeapHistoryViewer(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake", "qt"
+    platform_qt = os.getenv("CMAKE_PREFIX_PATH")
+    generators = "cmake", "qt" if not platform_qt else "cmake"
 
     def requirements(self):
         platform_qt = os.getenv("CMAKE_PREFIX_PATH")
@@ -19,5 +20,5 @@ class HeapHistoryViewer(ConanFile):
         self.requires("gflags/2.2.2")
 
     def imports(self):
-        self.copy("*.dll", dst="bin", src="bin") # From bin to bin
-        self.copy("*.dylib*", dst="bin", src="lib") # From lib to bin
+        self.copy("*.dll", dst="bin", src="bin")
+        self.copy("*.dylib*", dst="bin", src="lib")

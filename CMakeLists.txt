@@ -9,7 +9,9 @@ set(CMAKE_AUTOUIC ON)
 
 include(conan.cmake)
 conan_cmake_run(CONANFILE conanfile.py BASIC_SETUP CMAKE_TARGETS BUILD missing)
-file(COPY ${CMAKE_BINARY_DIR}/qt.conf DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+if (NOT DEFINED ENV{CMAKE_PREFIX_PATH})
+    file(COPY ${CMAKE_BINARY_DIR}/qt.conf DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5Test REQUIRED)
